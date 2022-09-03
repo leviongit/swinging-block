@@ -39,8 +39,9 @@ class PhysicsBody
   def rigid_rotate_around(body)
     bv = vec2(body.x, body.y)
     rv = vec2(@x, @y) - bv
-    ω = @v.abs / rv.abs
-    p1 = rv.rot(ω) + bv
+    ω = (@v.abs / rv.abs)
+    p ω
+    p1 = rv.rot(ω) # + bv
     @x, @y = p1.values_at(:x, :y)
     @v = @v.rot(ω)
   end
