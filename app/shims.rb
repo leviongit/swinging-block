@@ -1,6 +1,6 @@
 module Vec2Shim
   def -@()
-    self.merge(x: -self[:x], y: -self[:y])
+    Matrix.vec2(-self[:x], -self[:y])
   end
 
   def +(other)
@@ -24,7 +24,7 @@ module Vec2Shim
   end
 
   def -(other)
-    -self + other
+    self + (other * -1)
   end
 
   def /(other)
@@ -41,8 +41,8 @@ module Vec2Shim
     c = Math.cos(theta)
     s = Math.sin(theta)
 
-    rm = Matrix.mat2(c, s,
-                     -s, c)
+    rm = Matrix.mat2(c, -s,
+                     s, c)
 
     self * rm
   end
@@ -130,3 +130,20 @@ module HashShim
 end
 
 Hash.prepend HashShim
+
+module NumericShim
+  def normalize_rads()
+    pi = Math::PI
+    self - ((2 * pi) * (((self) + pi) / (2 * pi)).floor)
+  end
+
+  def sign()
+    if negative?
+      -1
+    else
+      1
+    end
+  end
+end
+
+Numeric.prepend NumericShim
